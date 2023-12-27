@@ -346,7 +346,7 @@ int8_t dm9051a_write_e_fuse_nbytes(uint8_t start_addr, uint8_t length, uint8_t *
 /*************************************************************************/
 /*      write e-fuse data N words                                        */
 /*************************************************************************/
-int8_t dm9051a_write_e_fuse_nwords(uint8_t start_addr, uint8_t length, uint16_t *buf)
+void dm9051a_write_e_fuse_nwords(uint8_t start_addr, uint8_t length, uint16_t *buf)
 {
   // Power on e-fuse, write enable, power down phy chip
   // reg = 0x1f;    // General Purpose Register 1 (GPR)
@@ -376,8 +376,6 @@ int8_t dm9051a_write_e_fuse_nwords(uint8_t start_addr, uint8_t length, uint16_t 
   // length=1;
   // buf[0]=0x00; // power up PHY chip
   // dm_wr_reg(usb_handle, reg, length, buf);
-
-  return 0;
 }
 
 /*************************************************************************/

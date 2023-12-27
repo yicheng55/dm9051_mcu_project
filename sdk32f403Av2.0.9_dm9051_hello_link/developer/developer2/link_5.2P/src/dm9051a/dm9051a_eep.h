@@ -17,6 +17,8 @@ extern "C"
   uint16_t dm9051a_wr_e_fuse(unsigned int addr, unsigned int wdata);
   void dm9051a_wr_e_fuse_nbytes(uint8_t start_addr, uint8_t length, uint8_t *buf);
   int8_t dm9051a_write_e_fuse_nbytes(uint8_t start_addr, uint8_t length, uint8_t *buf);
+  void dm9051a_read_e_fuse_nwords(uint8_t start_addr, uint8_t length, uint16_t *buf);
+  void dm9051a_write_e_fuse_nwords(uint8_t start_addr, uint8_t length, uint16_t *buf);
 
 #ifdef __cplusplus
 }

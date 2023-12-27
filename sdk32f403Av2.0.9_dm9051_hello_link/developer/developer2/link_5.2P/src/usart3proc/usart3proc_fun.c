@@ -351,20 +351,20 @@ int usart3proc_main(void)
         }
         printf("\r\n");
 
-        // Test e-fuse write
-        printf(": dm9051a_wr_e_fuse()...\r\n");
-        dm9051a_wr_e_fuse(0, 0x1234);
-        dm9051a_wr_e_fuse(1, 0x5678);
-        dm9051a_wr_e_fuse(2, 0x2389);
-        dm9051a_wr_e_fuse(3, 0x6542);
-        dm9051a_wr_e_fuse(4, 0x1234);
-        dm9051a_wr_e_fuse(5, 0x5678);
-        dm9051a_wr_e_fuse(6, 0x2389);
-        dm9051a_wr_e_fuse(7, 0x6542);
-        dm9051a_wr_e_fuse(8, 0x1234);
-        dm9051a_wr_e_fuse(9, 0x5678);
-        dm9051a_wr_e_fuse(10, 0x2389);
-        dm9051a_wr_e_fuse(11, 0x6542);
+        // // Test e-fuse write
+        // printf(": dm9051a_wr_e_fuse()...\r\n");
+        // dm9051a_wr_e_fuse(0, 0x1234);
+        // dm9051a_wr_e_fuse(1, 0x5678);
+        // dm9051a_wr_e_fuse(2, 0x2389);
+        // dm9051a_wr_e_fuse(3, 0x6542);
+        // dm9051a_wr_e_fuse(4, 0x1234);
+        // dm9051a_wr_e_fuse(5, 0x5678);
+        // dm9051a_wr_e_fuse(6, 0x2389);
+        // dm9051a_wr_e_fuse(7, 0x6542);
+        // dm9051a_wr_e_fuse(8, 0x1234);
+        // dm9051a_wr_e_fuse(9, 0x5678);
+        // dm9051a_wr_e_fuse(10, 0x2389);
+        // dm9051a_wr_e_fuse(11, 0x6542);
 
         printf(": dm9051a_read_e_fuse_nwords()...\r\n");
         dm9051a_read_e_fuse_nwords(0, 24, buf_word);
@@ -375,21 +375,14 @@ int usart3proc_main(void)
         }
         printf("\r\n");
 
-        // uint8_t buf2[24] = {0x5A, 0x5B, 0x85, 0xA5, 0xB5, 0xAA, 0x5A, 0x5B, 0x66, 0xA5, 0xB5, 0xAA, 0x5A, 0x5B, 0xCC, 0xA5, 0xB5, 0xAA, 0x5A, 0x5B, 0x33, 0xA5, 0xB5, 0xAA};
-        // uint16_t buf2[12] = {0x5A5B, 0x85A5, 0xB5AA, 0x5A5B, 0x66A5, 0xB5AA, 0x5A5B, 0xCCA5, 0xB5AA, 0x5A5B, 0x33A5, 0xB5AA};
-        uint16_t buf2[24] = {0x5A50, 0x85A0, 0xB5AA, 0x5A5B, 0x66A5, 0xB5AA, 0x5A5B, 0xCCA5, 0xB5AA, 0x5A5B, 0x33A5, 0xB5AA, 0x5A5B, 0x85A5, 0xB5AA, 0x5A5B, 0x66A5, 0xB5AA, 0x5A5B, 0xCCA5, 0xB5AA, 0x5A5B, 0x33A5, 0xB5AA};
+        // // uint8_t buf2[24] = {0x5A, 0x5B, 0x85, 0xA5, 0xB5, 0xAA, 0x5A, 0x5B, 0x66, 0xA5, 0xB5, 0xAA, 0x5A, 0x5B, 0xCC, 0xA5, 0xB5, 0xAA, 0x5A, 0x5B, 0x33, 0xA5, 0xB5, 0xAA};
+        // // uint16_t buf2[12] = {0x5A5B, 0x85A5, 0xB5AA, 0x5A5B, 0x66A5, 0xB5AA, 0x5A5B, 0xCCA5, 0xB5AA, 0x5A5B, 0x33A5, 0xB5AA};
+        // uint16_t buf2[24] = {0x5A50, 0x85A0, 0xB5AA, 0x5A5B, 0x66A5, 0xB5AA, 0x5A5B, 0xCCA5, 0xB5AA, 0x5A5B, 0x33A5, 0xB5AA, 0x5A5B, 0x85A5, 0xB5AA, 0x5A5B, 0x66A5, 0xB5AA, 0x5A5B, 0xCCA5, 0xB5AA, 0x5A5B, 0x33A5, 0xB5AA};
 
-        printf(": dm9051a_write_e_fuse_nwords()...\r\n");
-        // dm9051a_write_e_fuse_nbytes(0, 24, buf);
-        ret = dm9051a_write_e_fuse_nwords(0, sizeof(buf2) / sizeof(uint16_t), buf2);
-        if (ret == 0)
-        {
-          printf(": dm9051a_write_e_fuse_nwords OK...\r\n");
-        }
-        else
-        {
-          printf(": dm9051a_write_e_fuse_nwords ERROR...\r\n");
-        }
+        // printf(": dm9051a_write_e_fuse_nwords()...\r\n");
+        // // dm9051a_write_e_fuse_nbytes(0, 24, buf);
+        // dm9051a_write_e_fuse_nwords(0, sizeof(buf2) / sizeof(uint16_t), buf2);
+        // // printf(": dm9051a_write_e_fuse_nwords OK...\r\n");
 
         printf(": dm9051a_read_e_fuse_nwords...\r\n");
         dm9051a_read_e_fuse_nwords(0, 24, buf_word);
