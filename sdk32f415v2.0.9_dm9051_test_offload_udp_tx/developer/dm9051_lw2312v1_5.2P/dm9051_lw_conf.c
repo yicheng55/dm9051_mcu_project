@@ -438,29 +438,31 @@ const static spi_dev_t devconf_XXX = {
 
 spi_init_type spi_init_struct[BOARD_SPI_COUNT];
 
-static void spi_config(void)
+void init_spi_config(spi_init_type *config)
+{
+	spi_default_para_init(config);
+	config->transmission_mode = SPI_TRANSMIT_HALF_DUPLEX_TX;
+	config->master_slave_mode = SPI_MODE_MASTER;
+	config->mclk_freq_division = SPI_MCLK_DIV_8;
+	config->first_bit_transmission = SPI_FIRST_BIT_MSB;
+	config->frame_bit_num = SPI_FRAME_8BIT;
+	config->clock_polarity = SPI_CLOCK_POLARITY_LOW;
+	config->clock_phase = SPI_CLOCK_PHASE_2EDGE;
+	config->cs_mode_selection = SPI_CS_SOFTWARE_MODE;
+}
+
+void spi_config(void)
 {
 	crm_periph_clock_enable(CRM_SPI1_PERIPH_CLOCK, TRUE);
 	crm_periph_clock_enable(CRM_SPI2_PERIPH_CLOCK, TRUE);
 
-	for (int i = 0; i < BOARD_SPI_COUNT; i++)
+	for (int i = 0; i < BOARD_SPI_COUNT; ++i)
 	{
-		spi_default_para_init(&spi_init_struct[i]);
-		spi_init_struct[i].transmission_mode = SPI_TRANSMIT_HALF_DUPLEX_TX;
-		spi_init_struct[i].master_slave_mode = SPI_MODE_MASTER;
-		spi_init_struct[i].mclk_freq_division = SPI_MCLK_DIV_8;
-		spi_init_struct[i].first_bit_transmission = SPI_FIRST_BIT_MSB;
-		spi_init_struct[i].frame_bit_num = SPI_FRAME_8BIT;
-		spi_init_struct[i].clock_polarity = SPI_CLOCK_POLARITY_LOW;
-		spi_init_struct[i].clock_phase = SPI_CLOCK_PHASE_2EDGE;
-		spi_init_struct[i].cs_mode_selection = SPI_CS_SOFTWARE_MODE;
+		init_spi_config(&spi_init_struct[i]);
+		spi_init(SPI1 + i, &spi_init_struct[i]); // SPI1 + i assumes that SPI1, SPI2, etc. are contiguous in memory
 	}
 
-	spi_init(SPI1, &spi_init_struct[0]);
-	spi_init(SPI2, &spi_init_struct[1]);
-	// Add configurations for SPI3, SPI4, etc. if needed
-
-	for (int i = 0; i < BOARD_SPI_COUNT; i++)
+	for (int i = 0; i < BOARD_SPI_COUNT; ++i)
 	{
 		nvic_irq_enable(SPI1_IRQn + i, 0, 0);
 		spi_i2s_interrupt_enable(SPI1 + i, SPI_I2S_TDBE_INT, TRUE);
@@ -468,7 +470,37 @@ static void spi_config(void)
 	}
 }
 
-//static void gpio_config(void)
+// static void spi_config(void)
+// {
+// 	crm_periph_clock_enable(CRM_SPI1_PERIPH_CLOCK, TRUE);
+// 	crm_periph_clock_enable(CRM_SPI2_PERIPH_CLOCK, TRUE);
+
+// 	for (int i = 0; i < BOARD_SPI_COUNT; i++)
+// 	{
+// 		spi_default_para_init(&spi_init_struct[i]);
+// 		spi_init_struct[i].transmission_mode = SPI_TRANSMIT_HALF_DUPLEX_TX;
+// 		spi_init_struct[i].master_slave_mode = SPI_MODE_MASTER;
+// 		spi_init_struct[i].mclk_freq_division = SPI_MCLK_DIV_8;
+// 		spi_init_struct[i].first_bit_transmission = SPI_FIRST_BIT_MSB;
+// 		spi_init_struct[i].frame_bit_num = SPI_FRAME_8BIT;
+// 		spi_init_struct[i].clock_polarity = SPI_CLOCK_POLARITY_LOW;
+// 		spi_init_struct[i].clock_phase = SPI_CLOCK_PHASE_2EDGE;
+// 		spi_init_struct[i].cs_mode_selection = SPI_CS_SOFTWARE_MODE;
+// 	}
+
+// 	spi_init(SPI1, &spi_init_struct[0]);
+// 	spi_init(SPI2, &spi_init_struct[1]);
+// 	// Add configurations for SPI3, SPI4, etc. if needed
+
+// 	for (int i = 0; i < BOARD_SPI_COUNT; i++)
+// 	{
+// 		nvic_irq_enable(SPI1_IRQn + i, 0, 0);
+// 		spi_i2s_interrupt_enable(SPI1 + i, SPI_I2S_TDBE_INT, TRUE);
+// 		spi_enable(SPI1 + i, TRUE);
+// 	}
+// }
+
+// static void gpio_config(void)
 //{
 //	gpio_init_type gpio_initstructure;
 //	crm_periph_clock_enable(CRM_GPIOA_PERIPH_CLOCK, TRUE);
