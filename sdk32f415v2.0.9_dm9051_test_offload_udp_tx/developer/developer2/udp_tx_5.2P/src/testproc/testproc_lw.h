@@ -12,10 +12,16 @@
 #define DM9051_RX_DBGMSG(expression, message) do { if ((expression)) { \
   DM9051_DIAG(message);}} while(0)
 
+///* [DM9051 device mac address] */
+//#if (ETHERNET_COUNT == 1) 
+//static const uint8_t MACaddr[6] = {0x00, 0x60, 0x6e, 0x00, 0x01, 0x25};
+//#endif
+	
 /* [DM9051 device mac address] */
-#if (ETHERNET_COUNT == 1) 
+//#if (ETHERNET_COUNT == 1) 
 static const uint8_t MACaddr[6] = {0x00, 0x60, 0x6e, 0x00, 0x01, 0x25};
-#endif
+static const uint8_t MACaddr1[6] = {0x00, 0x60, 0x6e, 0x00, 0x01, 0x26};
+//#endif
 
 extern int test_line7_enter_check_setup; //.
 

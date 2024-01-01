@@ -436,7 +436,56 @@ const static spi_dev_t devconf_XXX = {
 #elif (BOARD_SPI_COUNT >= 2)
 #include "at32f4xx_conf_2xspi.h"
 
-spi_init_type spi_init_struct[BOARD_SPI_COUNT];
+// spi_init_type spi_init_struct;
+
+// spi_type *spi_configs[BOARD_SPI_COUNT] = {
+// 		{SPI1,
+// 		 SPI_TRANSMIT_HALF_DUPLEX_TX,
+// 		 SPI_MODE_MASTER,
+// 		 SPI_MCLK_DIV_8,
+// 		 SPI_FIRST_BIT_MSB,
+// 		 SPI_FRAME_8BIT,
+// 		 SPI_CLOCK_POLARITY_LOW,
+// 		 SPI_CLOCK_PHASE_2EDGE,
+// 		 SPI_CS_SOFTWARE_MODE,
+// 		 SPI1_IRQn,
+// 		 SPI_I2S_TDBE_INT},
+// 		{SPI2,
+// 		 SPI_TRANSMIT_HALF_DUPLEX_RX,
+// 		 SPI_MODE_SLAVE,
+// 		 SPI_MCLK_DIV_8,
+// 		 SPI_FIRST_BIT_MSB,
+// 		 SPI_FRAME_8BIT,
+// 		 SPI_CLOCK_POLARITY_LOW,
+// 		 SPI_CLOCK_PHASE_2EDGE,
+// 		 SPI_CS_SOFTWARE_MODE,
+// 		 SPI2_IRQn,
+// 		 SPI_I2S_RDBF_INT}};
+
+// static void spi_config(void)
+// {
+// 	crm_periph_clock_enable(CRM_SPI1_PERIPH_CLOCK, TRUE);
+// 	crm_periph_clock_enable(CRM_SPI2_PERIPH_CLOCK, TRUE);
+
+// 	for (int i = 0; i < BOARD_SPI_COUNT; ++i)
+// 	{
+// 		spi_default_para_init(&spi_init_struct);
+// 		spi_init_struct.transmission_mode = spi_configs[i].transmission_mode;
+// 		spi_init_struct.master_slave_mode = spi_configs[i].master_slave_mode;
+// 		spi_init_struct.mclk_freq_division = spi_configs[i].mclk_freq_division;
+// 		spi_init_struct.first_bit_transmission = spi_configs[i].first_bit_transmission;
+// 		spi_init_struct.frame_bit_num = spi_configs[i].frame_bit_num;
+// 		spi_init_struct.clock_polarity = spi_configs[i].clock_polarity;
+// 		spi_init_struct.clock_phase = spi_configs[i].clock_phase;
+// 		spi_init_struct.cs_mode_selection = spi_configs[i].cs_mode_selection;
+// 		spi_init(spi_configs[i].SPIx, &spi_init_struct);
+
+// 		nvic_irq_enable(spi_configs[i].IRQn, 0, 0);
+// 		spi_i2s_interrupt_enable(spi_configs[i].SPIx, spi_configs[i].interrupt, TRUE);
+
+// 		spi_enable(spi_configs[i].SPIx, TRUE);
+// 	}
+// }
 
 void init_spi_config(spi_init_type *config)
 {
@@ -451,6 +500,7 @@ void init_spi_config(spi_init_type *config)
 	config->cs_mode_selection = SPI_CS_SOFTWARE_MODE;
 }
 
+spi_init_type spi_init_struct[BOARD_SPI_COUNT];
 void spi_config(void)
 {
 	crm_periph_clock_enable(CRM_SPI1_PERIPH_CLOCK, TRUE);
@@ -998,66 +1048,66 @@ void exint_add(void)
 	config_exint(GPIO_PULL_UP, EXINT_TRIGGER_FALLING_EDGE); //
 }
 
-// int dm9051_board_initialize(void)
-void dm9051_board_initialize(void)
-{
-	int i;
-
-	printf("\r\n");
-	printf(": Conf: BOARD_SPI_COUNT %d  /  Operating: ETHERNET_COUNT %d\r\n", BOARD_SPI_COUNT, ETHERNET_COUNT);
-
-	printf("\r\n");
-	for (i = 0; i < ETHERNET_COUNT; i++)
-	{													// get_eth_interfaces()
-		mstep_set_net_index(i); //_pinCode = i;
-
-		spi_add(); //=== pins_config()
-		rst_add();
-		exint_add();
-
-		// int ethernet_count = 0;
-		// ethernet_count++;
-
-#if 0 //[Develop find-pins]
-	for (a_gpio_muxsel = (gpio_mux_sel_type)0x00; a_gpio_muxsel <= (gpio_mux_sel_type)0x0F; a_gpio_muxsel++) {
-		uint16_t id;
-		printf("[Feature: ] gpio_mux_sel_type %02x\r\n", a_gpio_muxsel);
-		spi_add(); //=== pins_config()
-		id = read_chip_id();
-		_display_verify_chipid("dm9051_init", mstep_spi_conf_name(), id);
-	}
-#endif
-	}
-
-	cpin_poweron_reset();
-	// return ETHERNET_COUNT;
-}
-
+// // int dm9051_board_initialize(void)
 // void dm9051_board_initialize(void)
 // {
-// 	// int i;
-// 	// for (i = 0; i < ETHERNET_COUNT; i++) { //get_eth_interfaces()
-// 	// mstep_set_net_index(i); //_pinCode = i;
+// 	int i;
 
-// 	spi_add(); //=== pins_config()
-// 	rst_add();
-// 	exint_add();
+// 	printf("\r\n");
+// 	printf(": Conf: BOARD_SPI_COUNT %d  /  Operating: ETHERNET_COUNT %d\r\n", BOARD_SPI_COUNT, ETHERNET_COUNT);
 
-// #if 0
+// 	printf("\r\n");
+// 	for (i = 0; i < ETHERNET_COUNT; i++)
+// 	{													// get_eth_interfaces()
+// 		mstep_set_net_index(i); //_pinCode = i;
+
+// 		spi_add(); //=== pins_config()
+// 		rst_add();
+// 		exint_add();
+
+// 		// int ethernet_count = 0;
+// 		// ethernet_count++;
+
+// #if 0 //[Develop find-pins]
 // 	for (a_gpio_muxsel = (gpio_mux_sel_type)0x00; a_gpio_muxsel <= (gpio_mux_sel_type)0x0F; a_gpio_muxsel++) {
 // 		uint16_t id;
 // 		printf("[Feature: ] gpio_mux_sel_type %02x\r\n", a_gpio_muxsel);
 // 		spi_add(); //=== pins_config()
 // 		id = read_chip_id();
-// 		display_verify_chipid("dm9051_init", mstep_spi_conf_name(), id);
+// 		_display_verify_chipid("dm9051_init", mstep_spi_conf_name(), id);
 // 	}
 // #endif
+// 	}
 
 // 	cpin_poweron_reset();
-// 	ethernet_count++;
-// 	//}
-// 	// mstep_set_net_index(0); //_pinCode = 0; //[No need, only because if multi-devs, there is a rotate access-design.]
+// 	// return ETHERNET_COUNT;
 // }
+
+void dm9051_board_initialize(void)
+{
+	// int i;
+	// for (i = 0; i < ETHERNET_COUNT; i++) { //get_eth_interfaces()
+	// mstep_set_net_index(i); //_pinCode = i;
+
+	spi_add(); //=== pins_config()
+	rst_add();
+	exint_add();
+
+#if 0
+	for (a_gpio_muxsel = (gpio_mux_sel_type)0x00; a_gpio_muxsel <= (gpio_mux_sel_type)0x0F; a_gpio_muxsel++) {
+		uint16_t id;
+		printf("[Feature: ] gpio_mux_sel_type %02x\r\n", a_gpio_muxsel);
+		spi_add(); //=== pins_config()
+		id = read_chip_id();
+		display_verify_chipid("dm9051_init", mstep_spi_conf_name(), id);
+	}
+#endif
+
+	cpin_poweron_reset();
+	ethernet_count++;
+	//}
+	// mstep_set_net_index(0); //_pinCode = 0; //[No need, only because if multi-devs, there is a rotate access-design.]
+}
 
 // static void net_irq_enable(void) {
 // }
