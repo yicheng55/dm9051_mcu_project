@@ -1,0 +1,9 @@
+{
+  "files.associations": {
+    "*.ts": "typescript",
+    "dm9051_lw_conf.h": "c",
+    "dm9051_lw.h": "c",
+    "at32f415.h": "c",
+    "at32f4xx_conf_2xspi.h": "c"
+  }
+}
